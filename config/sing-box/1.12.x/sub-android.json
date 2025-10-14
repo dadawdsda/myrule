@@ -116,7 +116,7 @@
       "enabled": true
     },
     "clash_api": {
-      "external_controller": "127.0.0.1:9095",
+      "external_controller": "0.0.0.0:9095",
       "secret": "",
       "default_mode": "rule"
     }
@@ -124,6 +124,7 @@
   "log": {
     "disabled": false,
     "level": "info",
-    "timestamp": true
+    "timestamp": true,
+    "output": "SFAlog.log"
   }
 }
