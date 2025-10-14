@@ -22,7 +22,7 @@
   },
   "outbounds": [
     {"tag": "🐸 手动选择", "type": "selector", "outbounds": ["🇭🇰 香港自动","🇯🇵 日本自动","🇺🇸 美国自动"]},
-    {"tag": "🎮 GameDownload", "type":"selector", "outbounds": ["🎯 全球直连", "🐸 手动选择"]},
+    {"tag": "🎮 游戏下载", "type":"selector", "outbounds": ["🎯 全球直连", "🐸 手动选择"]},
     {"tag": "🧠 AI", "type": "selector", "outbounds": ["🐸 手动选择"]},
     {"tag": "📹 YouTube", "type": "selector", "outbounds": ["🐸 手动选择"]},
     {"tag": "🍀 Google", "type": "selector", "outbounds": ["🐸 手动选择"]},
@@ -53,6 +53,7 @@
       {"ip_is_private": true, "outbound": "🎯 全球直连"},
       {"clash_mode": "direct", "outbound": "🎯 全球直连"},
       {"clash_mode": "global", "outbound": "GLOBAL"},
+      {"rule_set": "custom-gamedownload","outbound": "🎮 游戏下载"},
       {"rule_set": "geosite-ai", "outbound": "🧠 AI"},
       {"rule_set": "geosite-youtube", "outbound": "📹 YouTube"},
       {"rule_set": "geosite-google", "outbound": "🍀 Google"},
