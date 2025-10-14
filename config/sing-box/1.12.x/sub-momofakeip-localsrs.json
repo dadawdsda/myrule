@@ -1,0 +1,167 @@
+{
+  "dns": {
+    "servers": [
+      {"tag": "local", "type": "udp", "server": "223.5.5.5"},
+      {"tag": "public", "type": "https", "server": "dns.alidns.com", "domain_resolver": "local"},
+      {"tag": "foreign", "type": "https", "server": "8.8.8.8", "detour": "👨‍💻 Github"},
+      {"tag": "fakeip", "type": "fakeip", "inet4_range": "198.18.0.0/15", "inet6_range": "fc00::/18"}
+    ],
+    "rules": [
+      {"clash_mode": "direct", "server": "local"},
+      {"clash_mode": "global", "server": "foreign"},
+      {"query_type": "HTTPS", "action": "reject"},
+      {"domain_suffix": ["services.googleapis.cn", "googleapis.cn", "xn--ngstr-lra8j.com"], "server": "foreign"},
+      {"rule_set": ["geosite-cn", "geosite-steamcn", "geosite-apple"], "server": "local"},
+      {"query_type": ["A", "AAAA"], "server": "fakeip", "rewrite_ttl": 1}
+    ],
+    "final": "foreign",
+    "strategy": "ipv4_only",
+    "client_subnet": "112.253.109.1",
+    "independent_cache": true,
+    "reverse_mapping": true
+  },
+  "outbounds": [
+    {"tag": "🐸 手动选择", "type": "selector", "outbounds": ["🇭🇰 香港自动","🇯🇵 日本自动","🇺🇸 美国自动"]},
+    {"tag": "🎮 GameDownload", "type":"selector", "outbounds": ["🎯 全球直连", "🐸 手动选择"]},
+    {"tag": "🧠 AI", "type": "selector", "outbounds": ["🐸 手动选择"]},
+    {"tag": "📹 YouTube", "type": "selector", "outbounds": ["🐸 手动选择"]},
+    {"tag": "🍀 Google", "type": "selector", "outbounds": ["🐸 手动选择"]},
+    {"tag": "👨‍💻 Github", "type": "selector", "outbounds": ["🐸 手动选择","🎯 全球直连"]},
+    {"tag": "🐬 OneDrive", "type": "selector", "outbounds": ["🎯 全球直连", "🐸 手动选择"]},
+    {"tag": "🪟 Microsoft", "type": "selector", "outbounds": ["🎯 全球直连", "🐸 手动选择"]},
+    {"tag": "📲 Telegram", "type": "selector", "outbounds": ["🐸 手动选择"]},
+    {"tag": "🍏 Apple", "type": "selector", "outbounds": ["🎯 全球直连", "🐸 手动选择"]},
+    {"tag": "🎵 TikTok", "type": "selector", "outbounds": ["🐸 手动选择"]},
+    {"tag": "🎥 Netflix", "type": "selector", "outbounds": ["🐸 手动选择"]},
+    {"tag": "💶 PayPal", "type": "selector", "outbounds": ["🐸 手动选择"]},
+    {"tag": "🎮 SteamCN", "type": "selector", "outbounds": ["🎯 全球直连","🐸 手动选择"]},
+    {"tag": "🎮 Steam", "type": "selector", "outbounds": ["🐸 手动选择","🎯 全球直连"]},
+    {"tag": "🌏 国内网站", "type": "selector", "outbounds": ["🎯 全球直连","🐸 手动选择"]},
+    {"tag": "🌏 国外网站", "type": "selector", "outbounds": ["🐸 手动选择","🎯 全球直连"]},
+    {"tag": "🎮 UDPGame", "type":"selector", "outbounds": ["🎯 全球直连", "🐸 手动选择"]},
+    {"tag": "🐠 漏网之鱼", "type": "selector", "outbounds": ["🐸 手动选择", "🎯 全球直连"]},
+    {"tag": "🇭🇰 香港自动", "type":"urltest", "outbounds":[]},
+    {"tag": "🇯🇵 日本自动", "type":"urltest", "outbounds":[]},
+    {"tag": "🇺🇸 美国自动", "type":"urltest", "outbounds":[]},
+    {"tag": "GLOBAL", "type": "selector", "outbounds": ["🐸 手动选择", "🎯 全球直连"]},
+    {"tag": "🎯 全球直连", "type": "direct"}
+  ],
+  "route": {
+    "rules": [
+      {"action": "sniff", "sniffer": ["http", "tls", "quic", "dns"]},
+      {"inbound": "dns-in", "action": "hijack-dns"},
+      {"ip_is_private": true, "outbound": "🎯 全球直连"},
+      {"clash_mode": "direct", "outbound": "🎯 全球直连"},
+      {"clash_mode": "global", "outbound": "GLOBAL"},
+      {"rule_set": "geosite-ai", "outbound": "🧠 AI"},
+      {"rule_set": "geosite-youtube", "outbound": "📹 YouTube"},
+      {"rule_set": "geosite-google", "outbound": "🍀 Google"},
+      {"rule_set": "geosite-github", "outbound": "👨‍💻 Github"},
+      {"rule_set": "geosite-onedrive", "outbound": "🐬 OneDrive"},
+      {"rule_set": "geosite-microsoft", "outbound": "🪟 Microsoft"},
+      {"rule_set": "geosite-telegram", "outbound": "📲 Telegram"},
+      {"rule_set": "geosite-apple", "outbound": "🍏 Apple"},
+      {"rule_set": "geosite-tiktok", "outbound": "🎵 TikTok"},
+      {"rule_set": "geosite-netflix", "outbound": "🎥 Netflix"},
+      {"rule_set": "geosite-paypal", "outbound": "💶 PayPal"},
+      {"rule_set": "geosite-steamcn", "outbound": "🎮 SteamCN"},
+      {"rule_set": "geosite-steam", "outbound": "🎮 Steam"},
+      {"rule_set": "geosite-!cn", "outbound": "🌏 国外网站"},
+      {"rule_set": "geosite-cn", "outbound": "🌏 国内网站"},
+      {"rule_set": "geoip-google", "outbound": "🍀 Google"},
+      {"rule_set": "geoip-apple", "outbound": "🍏 Apple"},
+      {"rule_set": "geoip-telegram", "outbound": "📲 Telegram"},
+      {"rule_set": "geoip-netflix", "outbound": "🎥 Netflix"},
+      {"rule_set": "geoip-cn", "outbound": "🎯 全球直连"},
+      {"network" : "udp","outbound":"🎮 UDPGame"}
+    ],
+    "rule_set": [
+      {"tag": "geosite-ai", "type": "local", "format": "binary", "path": "/etc/momo/srss/geosite-srs/category-ai-!cn.srs"},
+      {"tag": "geosite-youtube", "type": "local", "format": "binary", "path": "/etc/momo/srss/geosite-srs/youtube.srs"},
+      {"tag": "geosite-google", "type": "local", "format": "binary", "path": "/etc/momo/srss/geosite-srs/google.srs"},
+      {"tag": "geosite-github", "type": "local", "format": "binary", "path": "/etc/momo/srss/geosite-srs/github.srs"},
+      {"tag": "geosite-onedrive", "type": "local", "format": "binary", "path": "/etc/momo/srss/geosite-srs/onedrive.srs"},
+      {"tag": "geosite-microsoft", "type": "local", "format": "binary", "path": "/etc/momo/srss/geosite-srs/microsoft.srs"},
+      {"tag": "geosite-apple", "type": "local", "format": "binary", "path": "/etc/momo/srss/geosite-srs/apple.srs"},
+      {"tag": "geosite-telegram", "type": "local", "format": "binary", "path": "/etc/momo/srss/geosite-srs/telegram.srs"},
+      {"tag": "geosite-tiktok", "type": "local", "format": "binary", "path": "/etc/momo/srss/geosite-srs/tiktok.srs"},
+      {"tag": "geosite-netflix", "type": "local", "format": "binary", "path": "/etc/momo/srss/geosite-srs/netflix.srs"},
+      {"tag": "geosite-paypal", "type": "local", "format": "binary", "path": "/etc/momo/srss/geosite-srs/paypal.srs"},
+      {"tag": "geosite-steamcn", "type": "local", "format": "binary", "path": "/etc/momo/srss/geosite-srs/steam@cn.srs"},
+      {"tag": "geosite-steam", "type": "local", "format": "binary", "path": "/etc/momo/srss/geosite-srs/steam.srs"},
+      {"tag": "geosite-!cn", "type": "local", "format": "binary", "path": "/etc/momo/srss/geosite-srs/geolocation-!cn.srs"},
+      {"tag": "geosite-cn", "type": "local", "format": "binary", "path": "/etc/momo/srss/geosite-srs/cn.srs"},
+      {"tag": "geoip-google", "type": "local", "format": "binary", "path": "/etc/momo/srss/geoip-srs/google.srs"},
+      {"tag": "geoip-apple", "type": "local", "format": "binary", "path": "/etc/momo/srss/geoip-srs/apple.srs"},
+      {"tag": "geoip-telegram", "type": "local", "format": "binary", "path": "/etc/momo/srss/geoip-srs/telegram.srs"},
+      {"tag": "geoip-netflix", "type": "local", "format": "binary", "path": "/etc/momo/srss/geoip-srs/netflix.srs"},
+      {"tag": "geoip-cn", "type": "local", "format": "binary", "path": "/etc/momo/srss/geoip-srs/China-ASN-combined-ip.srs"},
+      {"tag": "custom-gamedownload","type": "local", "format":"binary","path":"/etc/momo/srss/custom-srs/GameDownload.srs"}
+    ],
+    "final": "🐠 漏网之鱼",
+    "default_domain_resolver": {"server": "public"}
+  },
+  "inbounds": [
+    {
+      "tag": "dns-in",
+      "type": "direct",
+      "listen": "::",
+      "listen_port": 1053
+    },
+    {
+      "tag": "http-in",
+      "type": "http",
+      "listen": "::",
+      "listen_port": 8000
+    },
+    {
+      "tag": "socks-in",
+      "type": "socks",
+      "listen": "::",
+      "listen_port": 1080
+    },
+    {
+      "tag": "redirect-in",
+      "type": "redirect",
+      "listen": "::",
+      "listen_port": 7890
+    },
+    {
+      "tag": "tproxy-in",
+      "type": "tproxy",
+      "listen": "::",
+      "listen_port": 7891
+    },
+    {
+      "tag": "tun-in",
+      "type": "tun",
+      "interface_name": "momo",
+      "address": [
+        "172.31.0.1/30",
+        "fdfe:dcba:9876::1/126"
+      ],
+      "auto_route": false,
+      "auto_redirect": false
+    }
+  ],
+  "experimental": {
+    "cache_file": {
+      "enabled": true,
+      "path": "/etc/momo/run/cache.db",
+      "store_fakeip": true
+    },
+    "clash_api": {
+      "external_controller": "0.0.0.0:9095",
+      "external_ui": "/etc/momo/run/ui",
+      "external_ui_download_url": "https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip",
+      "external_ui_download_detour": "👨‍💻 Github",
+      "secret": "",
+      "default_mode": "rule"
+    }
+  },
+  "log": {
+    "disabled": false,
+    "level": "info",
+    "timestamp": true
+  }
+}
